@@ -1,8 +1,12 @@
 from bs4 import BeautifulSoup
-# import lxml #different way of using soup
 
-with open("website.html") as file:
+with open("website.html", encoding="utf-8") as file:
     contents = file.read()
 
 soup = BeautifulSoup(contents, 'html.parser')
+
+print(soup.title)
+
+# other option:
+# import lxml #different way of using soup
 # soup = BeautifulSoup(contents, 'lxml')
