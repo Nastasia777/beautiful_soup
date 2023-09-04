@@ -1,51 +1,63 @@
 from bs4 import BeautifulSoup
 
+### PRACTICE WITH SCRAPING LIVE WEBSITE ###
+import requests
+
+response = requests.get("https://web.archive.org/web/20200518073855/https://www.empireonline.com/movies/features/best-movies-2/")
+films = response.text
+
+soup = BeautifulSoup(films, 'html.parser')
+titles = soup.find_all(name='h3', class_='title')
+reversed_titles = reversed(titles)
+
+with open('titles.txt', 'w', encoding='utf-8') as file:
+    for title in reversed_titles:
+        file.write(title.text + '\n')
+
+# ### PRACTICE WITH MY WEBSITE ###
+# with open("website.html", encoding="utf-8") as file:
+#     contents = file.read()
+
+# soup = BeautifulSoup(contents, 'html.parser')
+
+# # other option:
+# # import lxml #different way of using soup
+# # soup = BeautifulSoup(contents, 'lxml')
 
 
-## PRACTICE ###
-with open("website.html", encoding="utf-8") as file:
-    contents = file.read()
+# # to get all info:
+# all_anchor_tags=soup.find_all(name="a")
+# all_p_tags=soup.find_all(name="p")
+# print(all_anchor_tags)
+# print(all_p_tags)
 
-soup = BeautifulSoup(contents, 'html.parser')
+# # to get only text:
+# for tag in all_p_tags:
+#     print(tag.getText())
 
-# other option:
-# import lxml #different way of using soup
-# soup = BeautifulSoup(contents, 'lxml')
+# # just links:
+# for tag in all_anchor_tags:
+#     print(tag.get("href"))
 
+# # find by id
+# heading =soup.find(name='h1', id='name')
+# print(heading) # <h1 id="name">Anastasija Kuznecova</h1>
 
-# to get all info:
-all_anchor_tags=soup.find_all(name="a")
-all_p_tags=soup.find_all(name="p")
-print(all_anchor_tags)
-print(all_p_tags)
+# # find by class
+# section_heading = soup.find(name='h3', class_='heading')
+# print(section_heading) # <h3 class="heading">Udemy courses:</h3>
 
-# to get only text:
-for tag in all_p_tags:
-    print(tag.getText())
+# print(soup.title) # <title>Anastasija's Personal Site</title>
+# print(soup.title.name) # title
+# print(soup.title.string) # Anastasija's Personal Site
+# print(soup) # will print whole html file or print(soup.prettify())
+# print(soup.p) # will give us first p
 
-# just links:
-for tag in all_anchor_tags:
-    print(tag.get("href"))
+# person_description = soup.select_one(selector="p em") 
+# print(person_description) # <em>Also known as Mother of Dragons</em>
 
-# find by id
-heading =soup.find(name='h1', id='name')
-print(heading) # <h1 id="name">Anastasija Kuznecova</h1>
+# name = soup.select_one(selector="#name") 
+# print(name) # <h1 id="name">Anastasija Kuznecova</h1>
 
-# find by class
-section_heading = soup.find(name='h3', class_='heading')
-print(section_heading) # <h3 class="heading">Udemy courses:</h3>
-
-print(soup.title) # <title>Anastasija's Personal Site</title>
-print(soup.title.name) # title
-print(soup.title.string) # Anastasija's Personal Site
-print(soup) # will print whole html file or print(soup.prettify())
-print(soup.p) # will give us first p
-
-person_description = soup.select_one(selector="p em") 
-print(person_description) # <em>Also known as Mother of Dragons</em>
-
-name = soup.select_one(selector="#name") 
-print(name) # <h1 id="name">Anastasija Kuznecova</h1>
-
-all_headings = soup.select('.heading')
-print(all_headings) # list of all headings
+# all_headings = soup.select('.heading')
+# print(all_headings) # list of all headings
